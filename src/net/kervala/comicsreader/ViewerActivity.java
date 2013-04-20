@@ -27,6 +27,7 @@ import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -55,6 +56,8 @@ public class ViewerActivity extends CommonActivity implements OnTouchListener, F
 	private Scroller mScroller;
 	private Overlay mOverlay;
 	
+	private GestureDetector mGestureDetector;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -77,12 +80,35 @@ public class ViewerActivity extends CommonActivity implements OnTouchListener, F
 
 		Intent intent = getIntent();
 
+		mGestureDetector = new GestureDetector(this, new GestureListener());
+
 		if (Intent.ACTION_VIEW.equals(intent.getAction())) {
 			// open last page
 			mAlbumThread.open(intent.getData());
 		}
 	}
 	
+
+	private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+		@Override
+		public boolean onDown(MotionEvent e) {
+			return true;
+		}
+
+		@Override
+		public boolean onDoubleTap(MotionEvent e) {
+			float x = e.getX();
+			float y = e.getY();
+
+			Log.d("ComicsReader", "Tapped at: (" + x + "," + y + ")");
+			mAlbumThread.cycleZoom();
+			changePage(mAlbumThread.getCurrentPage());
+
+			return true;
+		}
+	}
+
 	public void onSizeChanged(int newWidth, int newHeight, int oldWidth, int oldHeight) {
 		if (newWidth == oldWidth && newHeight == oldHeight) return;
 
@@ -234,6 +260,7 @@ public class ViewerActivity extends CommonActivity implements OnTouchListener, F
 
 
 	public boolean onTouch(View v, MotionEvent event) {
+		mGestureDetector.onTouchEvent(event);
 		int touchPosX = (int) (event.getX());
 		int touchPosY = (int) (event.getY());
 

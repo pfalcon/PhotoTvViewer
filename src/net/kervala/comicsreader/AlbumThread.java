@@ -437,6 +437,13 @@ public class AlbumThread extends HandlerThread {
 		mMainHandler.sendMessage(msg);
 	}
 
+	public void cycleZoom() {
+		if (mZoom == ZOOM_FIT_WIDTH)
+			mZoom = ZOOM_FIT_HEIGHT;
+		else
+			mZoom = ZOOM_FIT_WIDTH;
+	}
+
 	private Callback mLoaderCallback = new Callback() {
 		public boolean handleMessage(Message msg) {
 			if (mCallback.get() == null) return false;
