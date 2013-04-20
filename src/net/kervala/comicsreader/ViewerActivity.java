@@ -27,6 +27,7 @@ import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -212,6 +213,25 @@ public class ViewerActivity extends CommonActivity implements OnTouchListener, F
 
 		return super.onKeyDown(keyCode, event);
 	}
+
+	@Override
+	public boolean onGenericMotionEvent(MotionEvent event) {
+		if ((event.getSource() & InputDevice.SOURCE_CLASS_POINTER) != 0) {
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_SCROLL:
+				// Process mouse scroll wheel movement
+				Log.d("ComicsReader", "AXIS_VSCROLL: " + new Float(event.getAxisValue(MotionEvent.AXIS_VSCROLL)).toString());
+				if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0)
+					scrollToNextPage();
+				else {
+					scrollToPreviousPage();
+				}
+				return true;
+			}
+		}
+		return super.onGenericMotionEvent(event);
+	}
+
 
 	public boolean onTouch(View v, MotionEvent event) {
 		int touchPosX = (int) (event.getX());
