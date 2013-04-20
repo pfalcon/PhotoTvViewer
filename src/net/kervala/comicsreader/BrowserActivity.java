@@ -304,6 +304,12 @@ public class BrowserActivity extends CommonActivity implements OnItemClickListen
 	}
 	
 	private void loadItem(BrowserItem item) {
+		// If opening a folder, don't ask stupid questions,
+		// just go inside it.
+		if (new File(item.getPath()).isDirectory()) {
+			browseFolder(item.getPath());
+			return;
+		}
 		if (Album.askConfirm(item.getPath())) {
 			mSelectedItem = item;
 
