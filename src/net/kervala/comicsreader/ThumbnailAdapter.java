@@ -22,7 +22,9 @@ package net.kervala.comicsreader;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
+import java.util.ListIterator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -35,7 +37,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class ThumbnailAdapter extends BaseAdapter {
-	private final Stack<ThumbnailItem> mQueue = new Stack<ThumbnailItem>();
+	private final Queue<ThumbnailItem> mQueue = new LinkedList<ThumbnailItem>();
 	private final List<ThumbnailItem> mItems;
 	private final WeakReference<Handler> mHandler;
 	private final LayoutInflater mInflater;
@@ -65,6 +67,30 @@ public class ThumbnailAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+
+
+	public void clearQueue() {
+		synchronized (mQueue) {
+			mQueue.clear();
+		}
+	}
+
+	public void queue(int start, int count) {
+		if (!mInit)
+			return;
+		synchronized (mQueue) {
+			ListIterator<ThumbnailItem> iter = mItems.listIterator(start);
+			for (int i = count; iter.hasNext() && i > 0; i--) {
+				ThumbnailItem item = iter.next();
+				// add item to the queue only if icon not yet displayed
+				if (item.getStatus() < ThumbnailItem.STATUS_UPDATED) {
+					mQueue.add(item);
+				}
+			}
+		}
+		startThread();
+	}
+
 	public void reset() {
 		mInit = false;
 
@@ -81,6 +107,23 @@ public class ThumbnailAdapter extends BaseAdapter {
 				notifyDataSetChanged();
 			}
 		});
+	}
+
+
+	private void startThread() {
+		synchronized (mQueue) {
+			mQueue.notify();
+		}
+
+		if (mLoaderThread == null) {
+			mLoaderThread = new ItemsLoader();
+			mLoaderThread.setPriority(Thread.MIN_PRIORITY);
+		}
+
+		// start thread if it's not started yet
+		if (mLoaderThread.getState() == Thread.State.NEW) {
+			mLoaderThread.start();
+		}
 	}
 
 	public void stopThread() {
@@ -146,10 +189,12 @@ public class ThumbnailAdapter extends BaseAdapter {
 		item.updateView((TextView)convertView);
 		convertView.setTag(item);
 
+/*
 		// add item to the queue only if icon not yet displayed
 		if (mInit && item.getStatus() < ThumbnailItem.STATUS_UPDATED) {
 			addItem(item);
 		}
+*/
 
 		return convertView;
 	}
@@ -157,7 +202,7 @@ public class ThumbnailAdapter extends BaseAdapter {
 	private void addItem(ThumbnailItem item) {
 		// add item to the queue
 		synchronized (mQueue) {
-			mQueue.push(item);
+			mQueue.add(item);
 			mQueue.notify();
 		}
 
@@ -184,7 +229,7 @@ public class ThumbnailAdapter extends BaseAdapter {
 						if (mQueue.size() == 0) {
 							mQueue.wait();
 						} else {
-							item = mQueue.pop();
+							item = mQueue.remove();
 						}
 					}
 

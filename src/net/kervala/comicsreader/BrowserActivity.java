@@ -25,12 +25,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import android.util.Log;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
+import android.graphics.Rect;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -47,8 +49,10 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 
-public class BrowserActivity extends CommonActivity implements OnItemClickListener, OnItemLongClickListener {
+public class BrowserActivity extends CommonActivity implements OnItemClickListener, OnItemLongClickListener, OnScrollListener {
 	private ThumbnailAdapter mAdapter;
 	private BrowserItem mSelectedItem;
 	private String mLastUrl;
@@ -69,6 +73,7 @@ public class BrowserActivity extends CommonActivity implements OnItemClickListen
 		final GridView g = (GridView) findViewById(R.id.grid);
 		g.setOnItemClickListener(this);
 		g.setOnItemLongClickListener(this);
+		g.setOnScrollListener(this);
 
 		mAuthenticator = new ComicsAuthenticator(mHandler);
 		Authenticator.setDefault(mAuthenticator);
@@ -232,6 +237,63 @@ public class BrowserActivity extends CommonActivity implements OnItemClickListen
 			break;
 		}
 	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		// What we want to achieve here is:
+		// 1. Once user scrolls, we want to start showing thumbnails for items
+		// visible after scroll ASAP.
+		// 2. We want to show them from beginning to end, not the other way around
+		// as was in original ComicsReader.
+		// 3. But first line may be almost completely obscured, so no actual thumbs
+		// is visible on it (only text titles), so we want to skip them.
+		// 4. Or first line may be only partially obscure, and small part of thumb
+		// may be visible. In this case, we want to start with fully visible lines,
+		// but get back to first partial line in the end.
+		if (mAdapter != null) {
+			// Android docs don't describe this, but childs of GridView
+			// are only *visible* items, and thus start numbering from 0
+			View firstItem = view.getChildAt(0);
+			if (firstItem != null)
+				Log.d("ComicsReader", "first item: @" + Integer.toString(firstVisibleItem) + ": " + firstItem + "(" + ((TextView)firstItem).getText() + ")");
+			else
+				Log.d("ComicsReader", "first item: @" + Integer.toString(firstVisibleItem) + ": " + firstItem);
+			boolean firstLineObscured = false;
+			if (firstItem != null) {
+				Rect r = new Rect();
+				// getChildVisibleRect() is not well decsribed in API docs,
+				// and I couldn't find examples, so below is complete
+				// "it seems to work" heuristics.
+				r.right = ComicsParameters.THUMBNAIL_HEIGHT;
+				r.bottom = ComicsParameters.THUMBNAIL_HEIGHT;
+				view.getChildVisibleRect(firstItem, r, null);
+				Log.d("ComicsReader", "Visible rect: " + r);
+				if (r.top == 0) {
+					Log.d("ComicsReader", "This item is completely obscured");
+					firstLineObscured = true;
+				} else if (r.bottom - r.top < ComicsParameters.THUMBNAIL_HEIGHT * 40 / 100) {
+					Log.d("ComicsReader", "This item is partially obscured");
+					firstLineObscured = true;
+				}
+			}
+			int cols = ((GridView)view).getNumColumns();
+			if (firstLineObscured) {
+				firstVisibleItem += cols;
+				visibleItemCount -= cols;
+			}
+			mAdapter.clearQueue();
+			mAdapter.queue(firstVisibleItem, visibleItemCount);
+			if (firstLineObscured) {
+				// After all other items, queue potentially half-obscured first line
+				mAdapter.queue(firstVisibleItem - cols, cols);
+			}
+		}
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+	}
+
 	
 	public void setLastUrl(String url) {
 		mLastUrl = url;
