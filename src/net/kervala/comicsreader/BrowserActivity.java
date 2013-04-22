@@ -97,7 +97,15 @@ public class BrowserActivity extends CommonActivity implements OnItemClickListen
 		super.onPause();
 
 		if (mAdapter != null) {
-			mAdapter.reset();
+// onPause is usually called after starting PhotoViewActivity,
+// and that takes quite a long time to load big photos. So, that's
+// how it looks for a user: when a photo is clicked in thumbnail grid,
+// all thumbnail are immediately replaced with generic placeholder,
+// it hangs so for 3+ seconds, then photo is shown. To avoid that
+// unpleasant behavior of thmbnails flickering away, disable
+// ThumbnailAdapter reset here. It's all not ideal, but better
+// user look&feel is what this fork is about...
+//			mAdapter.reset();
 		}
 
 		new SavePreferencesTask().execute();
