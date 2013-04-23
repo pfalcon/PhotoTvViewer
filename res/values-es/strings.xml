@@ -21,16 +21,13 @@
     <string name="about">Acerca de</string>
     <string name="about_author">© 2011–2013 Kervala</string>
     <string name="about_license">Esta aplicación se publica bajo licencia GPLv3:</string>
-    <string name="about_support">http://code.google.com/p/android-comicsreader/</string>
-    <string name="about_text">Aplicación Android para leer cómics digitales en varios formatos. Usa transiciones suaves, una interfaz intuitivo, carga rápido y su código es abierto.</string>
     <string name="about_unrar_version">Version UNRAR: %s</string>
     <string name="about_version">Versión: %s</string>
     <string name="about_revision">Revisión: %s</string>
     <string name="about_build_date">Fecha de compilación: %s</string>
     <string name="licenses_waiting">Por favor espere mientras se actualizan las licencias…</string>
     <string name="album_downloading">Descargando \"%s\"…</string>
-    <string name="app_name">Comics Reader</string>
-    <string name="bookmark_help">Puedes indicar un directorio local empezando por un / (por ejemplo /Pictures o /Download), o una URL (ejemplo dominio.com/comics/index.xml). Si omites el prefijo http:// , se añadirá automáticamente si no empieza con un / . Ver \"Ayuda\" para más detalles sobre \"Álbumes remotos\".</string>
+    <string name="bookmark_help">Puedes indicar un directorio local empezando por un / (por ejemplo /Pictures o /Download), o una URL (ejemplo dominio.com/albums/index.xml). Si omites el prefijo http:// , se añadirá automáticamente si no empieza con un / . Ver \"Ayuda\" para más detalles sobre \"Álbumes remotos\".</string>
     <string name="bookmark_title">Título</string>
     <string name="bookmark_url">Directorio o URL</string>
     <string name="bookmarks">Favoritos</string>
@@ -96,7 +93,7 @@
     <string name="preference_zoom_label">Zoom</string>
     <string name="preference_zoom_summary">Modo de escalar páginas</string>
     <string name="preference_category_misc">Varios</string>
-    <string name="preference_about">Sobre ComicsReader</string>
+    <string name="preference_about">Sobre Photo TV Viewer</string>
     <string name="preference_about_summary">Versión y licencias de terceros</string>
     <string name="previous_page">Página anterior</string>
     <string name="settings">Ajustes</string>

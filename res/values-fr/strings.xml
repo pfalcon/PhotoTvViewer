@@ -21,7 +21,6 @@
     <string name="about">À propos</string>
     <string name="about_author">© 2011–2013 Kervala</string>
     <string name="about_license">Cette application est publiée sous licence GPLv3 :</string>
-    <string name="about_support">http://code.google.com/p/android-comicsreader/</string>
     <string name="about_text">Application Android de lecture de bandes dessinées numériques dans plusieurs formats. Elle propose des transitions fluides, une ergonomie intuitive, des chargements rapides et son code est libre.</string>
     <string name="about_unrar_version">Version d\'UnRAR : %s</string>
     <string name="about_version">Version : %s</string>
@@ -30,7 +29,7 @@
     <string name="licenses_waiting">Veuillez patienter pendant l\'affichage des licences…</string>
     <string name="album_downloading">Téléchargement de « %s » en cours…</string>
     <string name="app_name">Lecteur de BD</string>
-    <string name="bookmark_help">Vous pouvez saisir soit un chemin absolu commençant par un / (comme /Pictures or /Download), ou une URL comme domain.com/comics/index.xml). Si vous ne précisez pas le préfixe http://, il sera ajouté automatiquement si elle ne commence pas par un /. Voir l\'\"Aide\" pour plus de détails à propos des \"Albums distants\".</string>
+    <string name="bookmark_help">Vous pouvez saisir soit un chemin absolu commençant par un / (comme /Pictures or /Download), ou une URL comme domain.com/albums/index.xml). Si vous ne précisez pas le préfixe http://, il sera ajouté automatiquement si elle ne commence pas par un /. Voir l\'\"Aide\" pour plus de détails à propos des \"Albums distants\".</string>
     <string name="bookmark_title">Titre</string>
     <string name="bookmark_url">Chemin local absolu ou URL</string>
     <string name="bookmarks">Favoris</string>

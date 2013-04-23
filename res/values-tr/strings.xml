@@ -21,7 +21,6 @@
     <string name="about">Hakkında</string>
     <string name="about_author">© 2011–2013 Kervala</string>
     <string name="about_license">Bu uygulama GPLv3 lisansı kapsamında yayınlanmıştır:</string>
-    <string name="about_support">http://code.google.com/p/android-comicsreader/</string>
     <string name="about_text">Çeşitli biçimlerde sayısal çizgi roman görüntüleyici uygulama. Sezgisel kullanım, akıcı geçişler, hızlı yüklemeler sunar ve kaynak kodu özgürdür.</string>
     <string name="about_unrar_version">UnRAR sürümü: %s</string>
     <string name="about_version">Sürüm: %s</string>
@@ -30,7 +29,7 @@
     <string name="licenses_waiting">Lisanslar güncelleniyor, bekleyiniz…</string>
     <string name="album_downloading">\"%s\" dosyası indiriliyor…</string>
     <string name="app_name">Çizgi roman görüntüleyici</string>
-    <string name="bookmark_help">Bir / ile başlayan mutlak yol (/İndirmeler veya /Resimler gibi) ya da domain.com/comics/index.xml gibi bir URL girebilirsiniz. http:// ön ekini belirtmezseniz, / karakteriyle başlamıyorsa otomatik olarak eklenir. \"Uzaktaki albümler\" hakkında detaylar için \"Yardıma\" bakınız.</string>
+    <string name="bookmark_help">Bir / ile başlayan mutlak yol (/İndirmeler veya /Resimler gibi) ya da domain.com/albums/index.xml gibi bir URL girebilirsiniz. http:// ön ekini belirtmezseniz, / karakteriyle başlamıyorsa otomatik olarak eklenir. \"Uzaktaki albümler\" hakkında detaylar için \"Yardıma\" bakınız.</string>
     <string name="bookmark_title">Başlık</string>
     <string name="bookmark_url">Mutlak yerel yol veya URL</string>
     <string name="bookmarks">Favoriler</string>
@@ -96,7 +95,7 @@
     <string name="preference_zoom_label">Yeniden boyutlandırma</string>
     <string name="preference_zoom_summary">Sayfaların yeniden boyutlandırma kipi</string>
     <string name="preference_category_misc">Diğer</string>
-    <string name="preference_about">ComicsReader Hakkında</string>
+    <string name="preference_about">Photo TV Viewer Hakkında</string>
     <string name="preference_about_summary">Sürüm ve 3. taraf lisansları</string>
     <string name="previous_page">Evvelki sayfa</string>
     <string name="settings">Tercihler</string>
