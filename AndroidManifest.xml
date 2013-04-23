@@ -41,6 +41,7 @@
         android:name="ComicsApplication"
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
+        <!--
         <activity
             android:name="ViewerActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -57,6 +58,24 @@
                 <data android:mimeType="image/jpeg" />
             </intent-filter>
         </activity>
+        -->
+
+        <activity
+            android:name="PhotoViewActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@style/Theme.Viewer" >
+            <intent-filter>
+                <action android:name="android.intent.action.PICK" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/png" />
+                <data android:mimeType="image/jpeg" />
+            </intent-filter>
+        </activity>
+
+
         <activity
             android:name="BrowserActivity"
             android:configChanges="keyboardHidden|orientation" >
