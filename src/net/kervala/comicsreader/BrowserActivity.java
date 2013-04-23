@@ -418,7 +418,7 @@ public class BrowserActivity extends CommonActivity implements OnItemClickListen
 	 * @param uri URI to open
 	 */
 	private void startViewer(String uri) {
-		final Intent intent = new Intent(this, ViewerActivity.class);
+		final Intent intent = new Intent(this, PhotoViewActivity.class);
 		intent.putExtra("requestCode", CommonActivity.REQUEST_VIEWER);
 		intent.setDataAndType(Uri.parse(uri), Album.mimeType(uri));
 		intent.setAction(Intent.ACTION_VIEW);
